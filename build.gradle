@@ -1,0 +1,80 @@
+buildscript {
+    dependencies {
+        classpath "gradle.plugin.org.gauge.gradle:gauge-gradle-plugin:1.8.1"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.gauge' version '1.8.1'
+}
+
+group = 'iconic-autoamtion-framework'
+version = '1.0'
+
+description = "Iconic Automation Framework"
+
+sourceCompatibility = 13.0
+
+configurations {
+    testrailCompile
+    testrailRuntime
+    testrailTestCompile
+    testrailTestImplementation
+    testrailTestRuntime
+}
+
+configurations.all {
+    exclude group: "junit"
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation(
+            'org.slf4j:slf4j-log4j12:1.7.29',
+            'com.thoughtworks.gauge:gauge-java:0.7.13'
+    )
+
+    testRuntimeOnly(
+            'org.hamcrest:hamcrest-core:2.2',
+            'org.junit.jupiter:junit-jupiter-engine:5.6.0'
+    )
+
+    testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.6.0') {
+        exclude group: 'org.hamcrest'
+    }
+}
+
+sourceSets {
+    test {
+        output.resourcesDir = "build/classes/test"
+    }
+}
+
+clean.doFirst {
+    delete "logs/gauge.log"
+    delete "logs/api.log"
+    delete "reports/html-report"
+    delete "reports/json-report"
+}
+
+subprojects {
+    apply plugin: 'java'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+gauge {
+    specsDir = 'specs'
+    inParallel = false
+    nodes = 1
+    env = 'default'
+    additionalFlags = '--verbose'
+}
