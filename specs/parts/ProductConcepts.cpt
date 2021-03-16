@@ -1,0 +1,13 @@
+Created by zainglenn on 2021/03/16
+
+This is a concept file with following syntax for each concept.
+# Create and validate response has specified search criteria <search>
+  * Run products request filtered by query
+      |key            | value    |
+      |---------------|----------|
+      |gender         |female    |
+      |search query   |<search>  |
+      |page           |1         |
+      |page size      |100       |
+      |sort           |price     |
+  * Validate response only relates to search query provided <search>
