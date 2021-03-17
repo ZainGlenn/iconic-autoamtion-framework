@@ -3,8 +3,10 @@ package org.gauge.iconic.utils.rest;
 import okhttp3.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.gauge.iconic.exception.IconicRuntimeException;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class RestClient {
@@ -15,6 +17,9 @@ public class RestClient {
     public RestClient(String url) {
         this.logger = LogManager.getLogger(RestClient.class);
         this.url = url;
+        if(Objects.isNull(url)){
+            throw new IconicRuntimeException("Failed to validate url has been set",new Throwable());
+        }
         this.client = new OkHttpClient.Builder().connectTimeout(5, TimeUnit.MINUTES) // connect timeout
                 .writeTimeout(5, TimeUnit.MINUTES) // write timeout
                 .readTimeout(5, TimeUnit.MINUTES) // read timeout
@@ -43,10 +48,12 @@ public class RestClient {
         Request request;
         if (requestType.equals(RequestType.GET)) {
             request = requestBuilder.method(requestType.toString(), null)
+                    .addHeader("accept", "*/*")
                     .build();
         } else {
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), payload);
             request = requestBuilder.method(requestType.toString(), requestBody)
+                    .addHeader("accept", "*/*")
                     .build();
         }
         return requestRunner(request);
