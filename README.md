@@ -62,6 +62,12 @@ sdk install java 13.0.2-open
     * set env variable JAVA_HOME and make sure the env variable is set to the root dir of the JDK installation
 ```
 
+##  Project Structure
+
+Test Suite/Spec Location : specs/IconicProductAPI.spec
+Code: src/test/java
+Modal: Using POM to complete automation code structure 
+
 ## Running
 
 In order to successfully run project the above need's 
@@ -138,6 +144,8 @@ Note: Recompile with -Xlint:deprecation for details.
       * Validate response does not have gender "female" in response    ...[PASS]
       * Validate response relates to search query provided "boots"     ...[PASS]
 ```
+
+Gauge also comes with a build in parallel execution mechanism that can be used for a quicker feedback cycle
 
 ## Reporting
 
